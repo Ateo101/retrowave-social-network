@@ -1,0 +1,73 @@
+.dialogs {
+    grid-area: c;
+    background-color: rgba(0, 0, 0, 0.56);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.h2Dialogs {
+    font-size: 22px !important;
+    margin: 0 !important;
+    padding-bottom: 10px;
+}
+
+.dialogsContent {
+    border: solid white 3px;
+    border-radius: 10px;
+    display: grid;
+    grid-template-areas:
+    'dl dc';
+    grid-template-columns: 2fr 8fr;
+    grid-gap: 10px;
+    align-items: center;
+    padding: 10px 10px;
+    margin: 10px 0;
+}
+
+.dialogsList {
+    display: inline-block;
+    grid-area: dl;
+    padding: 10px 0 10px 0;
+}
+
+.dialogsItem{
+    padding-right: 0;
+
+}
+.dialogsItemLastMsg{}
+.new{
+    padding-left: 10px;
+    color: violet;
+    padding-bottom: 10px;
+    text-overflow: ellipsis;
+    width: 15em;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.new::before{
+    content: '⠀';
+    display: inline-block;
+    background: url('../../dot.svg') no-repeat center center;
+    background-size: 50%;
+    margin-right: 2px;
+}
+.seen{
+    padding-left: 10px;
+    color: violet;
+    padding-bottom: 10px;
+    text-overflow: ellipsis;
+    width: 15em;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.messagesWindow {
+    display: inline-block;
+    grid-area: dc;
+    background-color: rgba(0, 0, 0, 0.56);
+    border-radius: 20px;
+    padding: 10px 10px 0 10px;
+}
+.message{}

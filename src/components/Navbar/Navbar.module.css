@@ -1,0 +1,27 @@
+.nav {
+    grid-area: n;
+    background-color: rgba(153, 50, 204, 0.91);
+    height: fit-content;
+    border-radius: 10px;
+    overflow:hidden
+}
+.navItem{
+    padding: 10px;
+}
+a.active .navItem{
+    background-color: rgba(0, 0, 0, 0.56);
+    font-weight: bold;
+}
+.navItem:hover{
+    background-color: rgba(0, 0, 0, 0.56);
+    cursor: pointer;
+    font-weight: bold;
+}
+a{
+    text-decoration: none;
+    color: white;
+}
+a{
+    text-decoration: none;
+    color: white;
+}

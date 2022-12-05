@@ -1,0 +1,54 @@
+.profile {
+    grid-area: c;
+    background-color: rgba(0, 0, 0, 0.56);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.profileBio {
+    padding-bottom: 10px;
+}
+
+.profileBioText {
+    display: inline;
+}
+
+.avatar {
+    width: 60px;
+    border-radius: 100%;
+    cursor: pointer;
+}
+.avatarBio {
+    width: 80px;
+    border-radius: 100%;
+}
+
+.postsList {
+    border: solid white 3px;
+    padding: 0 10px;
+    border-radius: 10px;
+}
+
+.postItem {
+    padding: 10px 0;
+}
+
+.userName{
+    cursor: pointer;
+    font-size: medium;
+}
+
+.likesCount{
+    color: violet;
+    cursor: pointer;
+    font-size: medium;
+}
+
+.newPostInputArea {
+    padding: 0 0 20px 0;
+}
+
+.h2Posts{
+    font-size: 22px!important;
+    margin: 0!important;
+}
