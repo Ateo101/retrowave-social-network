@@ -5,10 +5,11 @@ import Navbar from "./components/Navbar/Navbar";
 import Profile from "./components/Profile/Profile";
 import Dialogs from "./components/Dialogs/Dialogs";
 import {Route} from "react-router-dom";
-import {stateType} from "./redux/state";
+import {stateType} from "./redux/store";
 
 type AppPropsType={
     state: stateType
+    dispatch: (action: any) => void
 }
 
 function App(props: AppPropsType) {
@@ -17,7 +18,7 @@ function App(props: AppPropsType) {
                 <Header/>
                 <Navbar/>
                 <Route path='/dialogs' render={() => <Dialogs state={props.state.dialogsPage}/>}/>
-                <Route path='/profile' render={() => <Profile state={props.state.profilePage}/>}/>
+                <Route path='/profile' render={() => <Profile state={props.state.profilePage} dispatch={props.dispatch}/>}/>
             </div>
     );
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import s from "../../Profile.module.css";
 import {NavLink} from "react-router-dom";
-import {postType} from "../../../../redux/state";
+import {postType} from "../../../../redux/store";
 
 const Post = (props: postType) => {
     return (

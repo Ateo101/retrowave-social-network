@@ -2,10 +2,10 @@ import React from "react";
 import s from './Dialogs.module.css';
 import DialogsList from "./DialogsList/DialogsList";
 import MessagesWindow from "./MessagesWindow/MessagesWindow";
-import {stateType} from "../../redux/state";
+import {storeType} from "../../redux/store";
 
 type DialogsPropsType = {
-    state: stateType['dialogsPage']
+    state: storeType['_state']['dialogsPage']
 }
 
 const Dialogs = (props: DialogsPropsType) => {

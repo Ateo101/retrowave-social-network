@@ -1,6 +1,6 @@
 import s from "../Profile.module.css";
 import React from "react";
-import {profileInfoType} from "../../../redux/state";
+import {profileInfoType} from "../../../redux/store";
 
 const ProfileInfo: React.FC<profileInfoType> = ({avatar,profileBioText}) => {
     return (
