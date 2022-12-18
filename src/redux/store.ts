@@ -4,12 +4,18 @@ export type dialogsType = {
     lastMsg: string,
     isSeen: boolean,
 }
+export type messagesType = {
+    text: string,
+}
+export type dialogsPageType = {
+    dialogs: dialogsType[],
+    messages: messagesType[],
+    dialogMessage: string,
+}
+
 export type profileInfoType = {
     avatar: string,
     profileBioText: string,
-}
-export type messagesType = {
-    text: string,
 }
 export type postType = {
     id: string,
@@ -17,15 +23,12 @@ export type postType = {
     message: string,
     likesCount: number,
 }
-type profilePageType = {
+export type profilePageType = {
     profileInfo: profileInfoType,
     posts: postType[],
     newPostText: string,
 }
-type dialogsPageType = {
-    dialogs: dialogsType[],
-    messages: messagesType[],
-}
+
 export type stateType = {
     profilePage: profilePageType,
     dialogsPage: dialogsPageType,
@@ -35,7 +38,7 @@ export type storeType = {
     _callSubscriber: (state: stateType) => void
     subscribe: (observer: (props: stateType) => void) => void
     getState: () => stateType
-    dispatch: (action: any) => void
+    dispatch: (action: ActionsType) => void
 }
 
 type AddPostActionType = {
@@ -46,7 +49,15 @@ type UpdatePostActionType = {
     type: 'UPD-POST-TEXT',
     text: string
 }
-type ActionsType = AddPostActionType | UpdatePostActionType
+type SendMessageActionType = {
+    type: 'SEND-MESSAGE',
+    text: string
+}
+type UpdateMessageActionType = {
+    type: 'UPD-MESSAGE-TEXT',
+    text: string
+}
+export type ActionsType = AddPostActionType | UpdatePostActionType | SendMessageActionType | UpdateMessageActionType
 
 const store:storeType = {
 
@@ -72,6 +83,7 @@ const store:storeType = {
                 {text: 'message 2'},
                 {text: 'message 3'},
             ],
+            dialogMessage: '',
         },
     },
     _callSubscriber() {
@@ -91,6 +103,12 @@ const store:storeType = {
             this._callSubscriber(this._state)
         } else if(action.type === 'UPD-POST-TEXT') {
             this._state.profilePage.newPostText = action.text
+            this._callSubscriber(this._state)
+        } else if(action.type === 'SEND-MESSAGE') {
+            this._state.dialogsPage.messages.push({text: action.text})
+            this._callSubscriber(this._state)
+        } else if(action.type === 'UPD-MESSAGE-TEXT') {
+            this._state.dialogsPage.dialogMessage = action.text
             this._callSubscriber(this._state)
         }
     }
