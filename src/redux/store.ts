@@ -1,3 +1,6 @@
+import dialogsReducer from "./dialogs-reducer";
+import profileReducer from "./profile-reducer";
+
 export type dialogsType = {
     id: string,
     name: string,
@@ -41,19 +44,19 @@ export type storeType = {
     dispatch: (action: ActionsType) => void
 }
 
-type AddPostActionType = {
+export type AddPostActionType = {
     type: 'ADD-POST',
     text: string
 }
-type UpdatePostActionType = {
+export type UpdatePostActionType = {
     type: 'UPD-POST-TEXT',
     text: string
 }
-type SendMessageActionType = {
+export type SendMessageActionType = {
     type: 'SEND-MESSAGE',
     text: string
 }
-type UpdateMessageActionType = {
+export type UpdateMessageActionType = {
     type: 'UPD-MESSAGE-TEXT',
     text: string
 }
@@ -98,19 +101,9 @@ const store:storeType = {
     },
 
     dispatch(action: ActionsType) {
-        if(action.type === 'ADD-POST') {
-            this._state.profilePage.posts.push({ id: '0', userName: 'Ryan', message: action.text, likesCount: 0 })
-            this._callSubscriber(this._state)
-        } else if(action.type === 'UPD-POST-TEXT') {
-            this._state.profilePage.newPostText = action.text
-            this._callSubscriber(this._state)
-        } else if(action.type === 'SEND-MESSAGE') {
-            this._state.dialogsPage.messages.push({text: action.text})
-            this._callSubscriber(this._state)
-        } else if(action.type === 'UPD-MESSAGE-TEXT') {
-            this._state.dialogsPage.dialogMessage = action.text
-            this._callSubscriber(this._state)
-        }
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage,action)
+        this._state.profilePage = profileReducer(this._state.profilePage,action)
+        this._callSubscriber(this._state)
     }
 
 }
