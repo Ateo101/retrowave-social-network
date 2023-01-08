@@ -1,6 +1,22 @@
-import {ActionsType, dialogsPageType} from "./store";
+export type dialogType = {
+    id: string,
+    name: string,
+    lastMsg: string,
+    isSeen: boolean,
+}
+export type messageType = {
+    text: string,
+}
+export type dialogsPageType = {
+    dialogs: dialogType[],
+    messages: messageType[],
+    dialogMessage: string,
+}
 
-const initialState:dialogsPageType = {
+const SEND_MESSAGE = "SEND-MESSAGE"
+const UPD_MESSAGE_TEXT = "UPD-MESSAGE-TEXT"
+
+const initialState: dialogsPageType = {
     dialogs: [
         {id: '0', name: 'Irene', lastMsg: 'Both of the following properties are required for text-overflow', isSeen: false},
         {id: '1', name: 'Benicio', lastMsg: 'The ellipsis, also known as ellipsis points', isSeen: false},
@@ -15,19 +31,40 @@ const initialState:dialogsPageType = {
     dialogMessage: '',
 }
 
-const dialogsReducer = (state=initialState, action: ActionsType) => {
+const dialogsReducer = (state=initialState, action: DialogsReducerACType):dialogsPageType => {
 
     switch (action.type) {
-        case "SEND-MESSAGE":
-            state.messages.push({text: action.text})
-            return state
-        case "UPD-MESSAGE-TEXT":
-            state.dialogMessage = action.text
-            return state
+        case SEND_MESSAGE:
+            //state.messages.push({text: action.payload.text})
+            return {...state, messages: [...state.messages,{text: action.payload.text}]}
+        case UPD_MESSAGE_TEXT:
+            //state.dialogMessage = action.payload.text
+            return {...state, dialogMessage: action.payload.text}
         default:
             return state
     }
 
+}
+
+export type DialogsReducerACType = sendMessageACType | updateMessageACType
+type sendMessageACType = ReturnType<typeof sendMessageAC>
+type updateMessageACType = ReturnType<typeof updateMessageAC>
+
+export const sendMessageAC = (text: string) => {
+    return {
+        type: SEND_MESSAGE,
+        payload: {
+            text
+        }
+    } as const
+}
+export const updateMessageAC = (text: string) => {
+    return {
+        type: UPD_MESSAGE_TEXT,
+        payload: {
+            text
+        }
+    } as const
 }
 
 export default dialogsReducer;

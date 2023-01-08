@@ -2,10 +2,10 @@ import React from "react";
 import s from './Dialogs.module.css';
 import DialogsList from "./DialogsList/DialogsList";
 import MessagesWindow from "./MessagesWindow/MessagesWindow";
-import {dialogsPageType} from "../../redux/store";
+import {dialogsPageType} from "../../redux/dialogs-reducer";
 
 type DialogsPropsType = {
-    state: dialogsPageType
+    dialogsPage: dialogsPageType
     updMessageText: (text: string) => void
     sendMessage: (text: string) => void
 }
@@ -15,11 +15,11 @@ const Dialogs = (props: DialogsPropsType) => {
         <div className={s.dialogs}>
             {/*тут будет поиск сообщений*/}
             <div className={s.dialogsContent}>
-                <DialogsList dialogsData={props.state.dialogs}/>
-                <MessagesWindow messagesData={props.state.messages}
+                <DialogsList dialogsData={props.dialogsPage.dialogs}/>
+                <MessagesWindow messagesData={props.dialogsPage.messages}
                                 updMessageText={props.updMessageText}
                                 sendMessage={props.sendMessage}
-                                dialogMessage={props.state.dialogMessage}/>
+                                dialogMessage={props.dialogsPage.dialogMessage}/>
             </div>
         </div>
     )

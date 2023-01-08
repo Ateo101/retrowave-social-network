@@ -1,9 +1,39 @@
 import React from "react";
-import {storeType} from "../../redux/store";
+import {connect} from "react-redux";
 import Profile from "./Profile";
-import StoreContext from "../../StoreContext";
+import {AppStateType} from "../../redux/redux-store";
+import {Dispatch} from "redux";
+import {addPostAC, profilePageType, updPostTextAC} from "../../redux/profile-reducer";
 
-export type ProfilePropsType = {
+type mapStateToPropsType = {
+    profilePage: profilePageType
+}
+const mapStateToProps = (state: AppStateType):mapStateToPropsType => {
+    return {
+        profilePage: state.profileReducer,
+    }
+}
+
+type mapDispatchToPropsType = {
+    addPost: (text: string) => void,
+    updPostText: (text: string) => void,
+}
+const mapDispatchToProps = (dispatch: Dispatch):mapDispatchToPropsType => {
+    return {
+        addPost: (text: string) => {
+            dispatch(addPostAC(text))
+        },
+        updPostText: (text: string) => {
+            dispatch(updPostTextAC(text))
+        },
+    }
+}
+
+const ProfileContainer = connect(mapStateToProps,mapDispatchToProps)(Profile);
+
+export default ProfileContainer;
+
+/*export type ProfilePropsType = {
     store: storeType
 }
 
@@ -27,8 +57,6 @@ const ProfileContainer = () => {
         }
         }
     </StoreContext.Consumer>
-};
-
-export default ProfileContainer;
+};*/
 
 

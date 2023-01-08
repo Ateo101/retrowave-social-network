@@ -1,32 +1,29 @@
-import dialogsReducer from "./dialogs-reducer";
-import profileReducer from "./profile-reducer";
-
-export type dialogsType = {
+type dialogsType = {
     id: string,
     name: string,
     lastMsg: string,
     isSeen: boolean,
 }
-export type messagesType = {
+type messagesType = {
     text: string,
 }
-export type dialogsPageType = {
+type dialogsPageType = {
     dialogs: dialogsType[],
     messages: messagesType[],
     dialogMessage: string,
 }
 
-export type profileInfoType = {
+type profileInfoType = {
     avatar: string,
     profileBioText: string,
 }
-export type postType = {
+type postType = {
     id: string,
     userName: string,
     message: string,
     likesCount: number,
 }
-export type profilePageType = {
+type profilePageType = {
     profileInfo: profileInfoType,
     posts: postType[],
     newPostText: string,
@@ -46,21 +43,31 @@ export type storeType = {
 
 type AddPostActionType = {
     type: 'ADD-POST',
-    text: string
+    payload: {
+        text: string
+    }
 }
 type UpdatePostActionType = {
     type: 'UPD-POST-TEXT',
-    text: string
+    payload: {
+        text: string
+    }
 }
 type SendMessageActionType = {
     type: 'SEND-MESSAGE',
-    text: string
+    payload: {
+        text: string
+    }
 }
 type UpdateMessageActionType = {
     type: 'UPD-MESSAGE-TEXT',
-    text: string
+    payload: {
+        text: string
+    }
 }
-export type ActionsType = AddPostActionType | UpdatePostActionType | SendMessageActionType | UpdateMessageActionType
+/*export type DialogsReducerActionsType =
+export type ProfileReducerActionsType = */
+export type ActionsType = SendMessageActionType | UpdateMessageActionType | AddPostActionType | UpdatePostActionType
 
 const store:storeType = {
 
@@ -101,14 +108,14 @@ const store:storeType = {
     },
 
     dispatch(action: ActionsType) {
-        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage,action)
-        this._state.profilePage = profileReducer(this._state.profilePage,action)
+        //this._state.dialogsPage = dialogsReducer(this._state.dialogsPage,action)
+        //this._state.profilePage = profileReducer(this._state.profilePage,action)
         this._callSubscriber(this._state)
     }
 
 }
 
-export default store;
+//export default store;
 
 /*
 export const addPost = (message: string) => {

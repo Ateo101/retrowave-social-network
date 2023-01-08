@@ -1,10 +1,10 @@
 import s from "../Dialogs.module.css";
 import React, {ChangeEvent, RefObject} from "react";
 import Message from "./Message";
-import {messagesType} from "../../../redux/store";
+import {messageType} from "../../../redux/dialogs-reducer";
 
 type MessagesWindowPropsType = {
-    messagesData: messagesType[]
+    messagesData: messageType[]
     updMessageText: (text: string) => void
     sendMessage: (text: string) => void
     dialogMessage: string
@@ -16,8 +16,9 @@ const MessagesWindow: React.FC<MessagesWindowPropsType> = ({messagesData,updMess
 
     const NewMessageTextarea:RefObject<HTMLTextAreaElement> = React.createRef()
     const sendMessageHandler = () => {
-       let text = NewMessageTextarea.current?.value
+        let text = NewMessageTextarea.current?.value
         text && sendMessage(text)
+        text && updMessageText('');
     }
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let text = e.currentTarget?.value

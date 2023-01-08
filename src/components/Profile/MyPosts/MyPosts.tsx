@@ -1,23 +1,24 @@
 import React, {RefObject} from "react";
 import s from "../Profile.module.css";
 import Post from "./Post/Post";
-import {postType} from "../../../redux/store";
+import {postType} from "../../../redux/profile-reducer";
 
 type MyPostsPropsType = {
     postsData: postType[],
     newPostText: string,
-    sendPost: (text: string) => void
+    addPost: (text: string) => void
     updPostText: (text: string) => void
 }
 
-const MyPosts: React.FC<MyPostsPropsType> = ({postsData,newPostText,sendPost,updPostText}) => {
+const MyPosts: React.FC<MyPostsPropsType> = ({postsData,newPostText,addPost,updPostText}) => {
 
     const myPostsElements = postsData.map( p => <Post id={p.id} userName={p.userName} message={p.message} likesCount={p.likesCount}/> )
 
     const NewPostElement:RefObject<HTMLTextAreaElement> = React.createRef()
-    const sendPostHandler = () => {
+    const addPostHandler = () => {
         let text = NewPostElement.current?.value
-        text && sendPost(text)
+        text && addPost(text)
+        text && updPostText('')
     }
     const onChangeHandler = () => {
         let text = NewPostElement.current?.value
@@ -34,7 +35,7 @@ const MyPosts: React.FC<MyPostsPropsType> = ({postsData,newPostText,sendPost,upd
                           onChange={onChangeHandler}
                 />
                 <div>
-                    <button title={'Send post'} onClick={sendPostHandler}>Send</button>
+                    <button title={'Send post'} onClick={addPostHandler}>Send</button>
                     <button title={'Clear text'}>Clear</button>
                 </div>
             </div>

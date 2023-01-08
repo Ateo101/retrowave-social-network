@@ -1,8 +1,8 @@
 import s from "../Dialogs.module.css";
 import React from "react";
-import {dialogsType} from "../../../redux/store";
+import {dialogType} from "../../../redux/dialogs-reducer";
 
-const DialogsItem = (props: dialogsType) => {
+const DialogsItem = (props: dialogType) => {
     return (
         <>
             <div className={s.dialogsItem}>{props.name}</div>

@@ -1,10 +1,10 @@
 import s from "../Dialogs.module.css";
 import React from "react";
 import DialogsItem from "./DialogsItem";
-import {dialogsType} from "../../../redux/store";
+import {dialogType} from "../../../redux/dialogs-reducer";
 
 type DialogsListPropsType = {
-    dialogsData: dialogsType[]
+    dialogsData: dialogType[]
 }
 
 const DialogsList: React.FC<DialogsListPropsType> = ({dialogsData}) => {
