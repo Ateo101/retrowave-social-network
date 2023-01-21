@@ -12,9 +12,9 @@ const Post = (props: postType) => {
             <div>
                 <b className={s.userName}>{props.userName}</b>
             </div>
-            <div>
+            <p>
                 {props.message}
-            </div>
+            </p>
             <div>
                 <span className={s.likesCount}>{`${props.likesCount} likes`}</span>
             </div>

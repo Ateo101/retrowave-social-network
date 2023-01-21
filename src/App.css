@@ -5,17 +5,26 @@
   grid-template-areas:
   '. h h .'
   '. n c .';
-  grid-template-rows: 0.4fr 0.6fr;
-  grid-template-columns: 0.3fr 2.2fr 10.2fr 0.3fr;
+  grid-template-rows: auto auto;
+  grid-template-columns: 0.1fr 0.2fr 0.8fr 0.1fr;
   grid-gap: 10px;
   background-color: darkslateblue;
   background-image: url('https://images.hdqwalls.com/download/pacific-coast-4k-ih-2880x1800.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
   font-size: 1.1em;
   font-family: Newtown, Verdana;
   font-style: italic;
+}
+
+p{
+  hyphens: auto;
+  hyphenate-limit-chars: 6 3 3;
+  hyphenate-limit-lines: 2;
+  hyphenate-limit-last: always;
+  hyphenate-limit-zone: 8%;
 }
 
 @font-face {font-family: "Newtown"; unicode-range: U+00-FF, U+980-9FF; src: url("//db.onlinewebfonts.com/t/c53e60509e5f6c6b82e6b3ca34c3aff1.eot"); src: url("//db.onlinewebfonts.com/t/c53e60509e5f6c6b82e6b3ca34c3aff1.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/c53e60509e5f6c6b82e6b3ca34c3aff1.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/c53e60509e5f6c6b82e6b3ca34c3aff1.woff") format("woff"), url("//db.onlinewebfonts.com/t/c53e60509e5f6c6b82e6b3ca34c3aff1.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/c53e60509e5f6c6b82e6b3ca34c3aff1.svg#Newtown") format("svg") ;}
@@ -56,4 +65,15 @@ textarea::placeholder{
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.5);
+}
+
+.currPageSpan{
+  font-weight: bold;
+  font-size: 125%;
+}
+.pageSpan{
+}
+
+span:hover {
+  cursor: pointer;
 }

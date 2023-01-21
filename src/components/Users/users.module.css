@@ -1,0 +1,51 @@
+.users{
+    grid-area: c;
+    background-color: rgba(0, 0, 0, 0.56);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.usersContent{
+    display: grid;
+    grid-template-areas:
+            'up'
+            'ul'
+            'up2';
+    grid-template-rows: auto auto auto;
+    grid-gap: 10px;
+    padding: 10px 10px;
+    margin: 10px 0;
+}
+
+.usersPagination{
+    display: inline-block;
+    grid-area: up;
+    padding: 10px 0 10px 0;
+    overflow: auto;
+}
+.usersPagination2{
+    display: inline-block;
+    grid-area: up2;
+    padding: 10px 0 10px 0;
+    overflow: auto;
+}
+
+.usersList{
+    display: inline-block;
+    grid-area: ul;
+    padding: 10px 20px;
+    border: solid white 3px;
+    border-radius: 10px;
+    overflow: auto;
+}
+.userItem{
+    padding: 10px 20px;
+}
+
+.status{
+    word-break: break-all;
+}
+
+.name{
+
+}

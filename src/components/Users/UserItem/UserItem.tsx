@@ -1,5 +1,6 @@
 import {userType} from "../../../redux/users-reducer";
 import s from "../../Profile/Profile.module.css";
+import u from "../users.module.css"
 
 type UserItemType = {
     user: userType,
@@ -17,7 +18,7 @@ const UserItem = (props: UserItemType) => {
     }
 
     return (
-        <div>
+        <div className={u.userItem}>
             <div>
                 <img className={s.avatarBio}
                      src={props.user.photos.small
@@ -30,10 +31,10 @@ const UserItem = (props: UserItemType) => {
             </div>
             <div>
                 <div>
-                    <div>
+                    <div className={u.status}>
                         {props.user.name}
                     </div>
-                    <div>
+                    <div className={u.status}>
                         {props.user.status}
                     </div>
                 </div>

@@ -3,7 +3,7 @@
     background-color: rgba(153, 50, 204, 0.91);
     height: fit-content;
     border-radius: 10px;
-    overflow:hidden
+    overflow: hidden;
 }
 .navItem{
     padding: 10px;
