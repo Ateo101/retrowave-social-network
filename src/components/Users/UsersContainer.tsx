@@ -1,65 +1,45 @@
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {
-    follow,
-    setCurrPage,
-    setFetched, setPendingFollow, setTotalUsers,
-    setUsers,
-    unfollow,
+    getUsersThunkCreator, followThunkCreator, unfollowThunkCreator,
     userPageType,
-    userType
 } from "../../redux/users-reducer";
 import Users from "./Users";
 import React from "react";
 import s from './users.module.css'
-import {getUsers} from "../../api/api";
 
 type UsersPropsType = {
     usersPage: userPageType
-    follow: (userID: number) => void,
-    unfollow: (userID: number) => void,
-    setUsers: (users: userType[]) => void,
-    setCurrPage: (currPage: number) => void,
-    setTotalUsers: (totalUsers: number) => void,
-    setFetched: (fetched: boolean) => void,
-    setPendingFollow: (pendingFollow: boolean) => void,
+    getUsers: (currPage: number, pageSize: number) => void
+    followUser: (id: number) => void
+    unfollowUser: (id: number) => void
 }
 
 class UsersContainer extends React.Component<UsersPropsType> {
 
-    constructor(props: UsersPropsType) {
-        super(props);
-    }
-
     componentDidMount() {
-        this.props.setFetched(true)
-        //axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.usersPage.currPage}&count=${this.props.usersPage.pageSize}`).then(response => {
-        getUsers(this.props.usersPage.currPage, this.props.usersPage.pageSize).then(data => {
-            this.props.setFetched(false)
-            this.props.setUsers(data.items)
-            this.props.setTotalUsers(data.totalCount)
-        });
+        this.props.getUsers(this.props.usersPage.currPage, this.props.usersPage.pageSize)
     }
 
     onClickSetPage = (currPage: number) => {
-        this.props.setCurrPage(currPage)
-        this.props.setFetched(true)
-        //axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currPage}&count=${this.props.usersPage.pageSize}`).then(response => {
-        getUsers(currPage, this.props.usersPage.pageSize).then(data => {
-            this.props.setFetched(false)
-            this.props.setUsers(data.items)
-        });
+        this.props.getUsers(currPage, this.props.usersPage.pageSize)
+    }
+
+    followUser = (id: number) => {
+        this.props.followUser(id)
+    }
+
+    unfollowUser = (id: number) => {
+        this.props.unfollowUser(id)
     }
 
     render() {
         return <div className={s.users}>
             {/*{this.props.usersPage.isFetched && <Preloader/>}*/}
             <Users usersPage={this.props.usersPage}
-                   follow={this.props.follow}
-                   unfollow={this.props.unfollow}
                    onClickSetPage={this.onClickSetPage}
-                   pendingFollow={this.props.usersPage.pendingFollow}
-                   setPendingFollow={this.props.setPendingFollow}
+                   followUser={this.followUser}
+                   unfollowUser={this.unfollowUser}
             />
         </div>
     }
@@ -73,6 +53,12 @@ const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
         usersPage: state.usersReducer,
     }
 }
+
+export default connect(mapStateToProps, {
+    getUsers: getUsersThunkCreator,
+    followUser: followThunkCreator,
+    unfollowUser: unfollowThunkCreator,
+})(UsersContainer);
 
 /*type mapDispatchToPropsType = {
     follow: (userID: number) => void,
@@ -104,7 +90,3 @@ const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
         }
     }
 }*/
-
-export default connect(mapStateToProps, {
-    follow, unfollow, setUsers, setCurrPage, setFetched, setTotalUsers, setPendingFollow
-})(UsersContainer);

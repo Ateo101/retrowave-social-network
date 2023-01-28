@@ -9,6 +9,9 @@
     },
     followed: boolean
 }*/
+import {API} from "../api/api";
+import {Dispatch} from "redux";
+
 export type userType = {
     name: string,
     id: number,
@@ -47,7 +50,7 @@ const initialState: userPageType = {
     pendingFollow: false,
 }
 
-const usersReducer = (state = initialState, action: ProfileReducerACType): userPageType => {
+const usersReducer = (state = initialState, action: UserReducerACType): userPageType => {
 
     switch (action.type) {
         case FOLLOW:
@@ -78,7 +81,7 @@ const usersReducer = (state = initialState, action: ProfileReducerACType): userP
 
 }
 
-type ProfileReducerACType =
+type UserReducerACType =
     followACType
     | unfollowACType
     | setUsersACType
@@ -166,6 +169,49 @@ export const setPendingFollow = (pendingFollow: boolean) => {
             pendingFollow
         }
     } as const
+}
+
+
+export const getUsersThunkCreator = (currPage: number, pageSize: number) => {
+
+    return (dispatch: Dispatch<UserReducerACType>) => {
+        dispatch(setFetched(true))
+        API.getUsers(currPage, pageSize).then(data => {
+            dispatch(setFetched(false))
+            dispatch(setUsers(data.items))
+            dispatch(setTotalUsers(data.totalCount))
+        });
+        dispatch(setCurrPage(currPage))
+    }
+
+}
+
+export const unfollowThunkCreator = (id: number) => {
+
+    return (dispatch: Dispatch<UserReducerACType>) => {
+        dispatch(setPendingFollow(true))
+        API.unfollowUser(id).then(data => {
+            if (data.resultCode === 0) {
+                dispatch(unfollow(id))
+            }
+        });
+        dispatch(setPendingFollow(false))
+    }
+
+}
+
+export const followThunkCreator = (id: number) => {
+
+    return (dispatch: Dispatch<UserReducerACType>) => {
+        dispatch(setPendingFollow(true))
+        API.followUser(id).then(data => {
+            if (data.resultCode === 0) {
+                dispatch(follow(id))
+            }
+        });
+        dispatch(setPendingFollow(false))
+    }
+
 }
 
 export default usersReducer;

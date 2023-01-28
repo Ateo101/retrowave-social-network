@@ -1,40 +1,38 @@
 import React from "react";
 import Profile from "./Profile";
-import {addPost, profilePageDataType, profilePageType, setUserProfile, updPostText} from "../../redux/profile-reducer";
+import {
+    addPostThunkCreator, setUserProfileThunkCreator, updPostTextThunkCreator,
+    profilePageType,
+} from "../../redux/profile-reducer";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {RouteComponentProps, withRouter} from "react-router-dom";
-import {getAuthData, getUserProfile} from "../../api/api";
 
 type ProfileContainerPropsType = {
-    setUserProfile: (profile: profilePageDataType | null) => void
     profilePage: profilePageType
     addPost: (text: string) => void
     updPostText: (text: string) => void
+    setUserProfile: (userId: string) => void
 }
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType & RouteComponentProps<{ userId: string }>> {
 
-    constructor(props: ProfileContainerPropsType & RouteComponentProps<{ userId: string }>) {
-        super(props);
-    }
-
     componentDidMount() {
         let userId = this.props.match.params.userId
-        if (!userId) {
-            userId = '20140'
-        }
-        getUserProfile(+userId).then(data => {
-            this.props.setUserProfile(data)
-        }).catch(reason => {
-            console.log(reason)
-        })
+        this.props.setUserProfile(userId)
+    }
+
+    addPost = (text: string) => {
+        this.props.addPost(text)
+    }
+    updPostText = (text: string) => {
+        this.props.updPostText(text)
     }
 
     render() {
         return <Profile profilePage={this.props.profilePage}
-                        addPost={this.props.addPost}
-                        updPostText={this.props.updPostText}/>
+                        addPost={this.addPost}
+                        updPostText={this.updPostText}/>
     }
 }
 
@@ -50,7 +48,13 @@ const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
 
 let WithURLProfileContainer = withRouter(ProfileContainer)
 
-export default connect(mapStateToProps, {addPost, updPostText, setUserProfile})(WithURLProfileContainer);
+export default connect(mapStateToProps, {
+    addPost: addPostThunkCreator,
+    updPostText: updPostTextThunkCreator,
+    setUserProfile: setUserProfileThunkCreator
+})
+(WithURLProfileContainer);
+
 
 /*type mapDispatchToPropsType = {
     addPost: (text: string) => void,

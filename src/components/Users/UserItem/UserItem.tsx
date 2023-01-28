@@ -2,35 +2,21 @@ import {userType} from "../../../redux/users-reducer";
 import s from "../../Profile/Profile.module.css";
 import u from "../users.module.css"
 import {NavLink} from "react-router-dom";
-import {followUser, unfollowUser} from "../../../api/api";
 
 type UserItemType = {
-    user: userType,
-    follow: (userID: number) => void,
-    unfollow: (userID: number) => void,
-    pendingFollow: boolean,
-    setPendingFollow: (pendingFollow: boolean) => void,
+    user: userType
+    pendingFollow: boolean
+    onClickUnfollow: (id: number) => void
+    onClickFollow: (id: number) => void
 }
 
 const UserItem = (props: UserItemType) => {
 
-    const onClickUnfollowHandler = () => {
-        props.setPendingFollow(true)
-        unfollowUser(props.user.id).then(data => {
-            if (data.resultCode === 0) {
-                props.unfollow(props.user.id)
-            }
-        });
-        props.setPendingFollow(false)
+    const onClickUnfollowHandler = (id: number) => () => {
+        props.onClickUnfollow(id)
     }
-    const onClickFollowHandler = () => {
-        props.setPendingFollow(true)
-        followUser(props.user.id).then(data => {
-            if (data.resultCode === 0) {
-                props.follow(props.user.id)
-            }
-        });
-        props.setPendingFollow(false)
+    const onClickFollowHandler = (id: number) => () => {
+        props.onClickFollow(id)
     }
 
     return (
@@ -43,8 +29,8 @@ const UserItem = (props: UserItemType) => {
                              : 'https://i.ibb.co/Gc3qXtB/ava-synthwave.png'}/>
                 </NavLink>
                 {props.user.followed
-                    ? <button onClick={onClickUnfollowHandler} disabled={props.pendingFollow === true}>Unfollow</button>
-                    : <button onClick={onClickFollowHandler} disabled={props.pendingFollow === true}>Follow</button>
+                    ? <button onClick={onClickUnfollowHandler(props.user.id)} disabled={props.pendingFollow}>Unfollow</button>
+                    : <button onClick={onClickFollowHandler(props.user.id)} disabled={props.pendingFollow}>Follow</button>
                 }
             </div>
             <div>

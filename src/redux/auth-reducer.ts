@@ -1,3 +1,6 @@
+import {Dispatch} from "redux";
+import {API} from "../api/api";
+import {follow, setPendingFollow} from "./users-reducer";
 
 export type authDataType = {
     data: {
@@ -43,6 +46,17 @@ export const setAuthDataAC = (data: { id: number, login: string, email: string }
             data
         }
     } as const
+}
+
+
+export const setAuthDataThunkCreator = () => {
+
+    return (dispatch: Dispatch<authReducerActionsType>) => {
+        API.getAuthData().then(data => {
+            data.resultCode === 0 && dispatch(setAuthDataAC(data.data))
+        })
+    }
+
 }
 
 export default authReducer;

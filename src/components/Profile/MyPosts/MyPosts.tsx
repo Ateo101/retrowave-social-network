@@ -53,7 +53,7 @@ const MyPosts: React.FC<MyPostsPropsType> = ({
                 />
                 <div>
                     <button title={'Send post'} onClick={addPostHandler}>Send</button>
-                    <button title={'Clear text'}>Clear</button>
+                    <button title={'Clear text'} onClick={()=>updPostText('')}>Clear</button>
                 </div>
             </div>
             <div className={s.postsList}>

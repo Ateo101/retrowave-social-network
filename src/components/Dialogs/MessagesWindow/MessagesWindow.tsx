@@ -37,7 +37,7 @@ const MessagesWindow: React.FC<MessagesWindowPropsType> = ({messagesData,updMess
                 />
                 <div>
                     <button title={'Send message'} onClick={sendMessageHandler}>Send</button>
-                    <button title={'Clear text'}>Clear</button>
+                    <button title={'Clear text'} onClick={()=>updMessageText('')}>Clear</button>
                 </div>
             </div>
 

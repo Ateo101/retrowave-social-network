@@ -3,14 +3,13 @@ import {userPageType} from "../../redux/users-reducer";
 import UserItem from "./UserItem/UserItem";
 import s from "./users.module.css";
 import Preloader from "../Preloader/Preloader";
+import {API} from "../../api/api";
 
 type UsersPropsType = {
     usersPage: userPageType
-    follow: (userID: number) => void,
-    unfollow: (userID: number) => void,
-    onClickSetPage: (currPage: number) => void,
-    pendingFollow: boolean,
-    setPendingFollow: (pendingFollow: boolean) => void,
+    onClickSetPage: (currPage: number) => void
+    followUser: (id: number) => void
+    unfollowUser: (id: number) => void
 }
 
 const Users = (props: UsersPropsType) => {
@@ -20,6 +19,13 @@ const Users = (props: UsersPropsType) => {
     let pagination: number[] = []
     for (let i = 1; i <= pagesAmount; i++) {
         pagination.push(i)
+    }
+
+    const onClickUnfollow = (id: number) => {
+        props.unfollowUser(id)
+    }
+    const onClickFollow = (id: number) => {
+        props.followUser(id)
     }
 
     return (
@@ -34,10 +40,9 @@ const Users = (props: UsersPropsType) => {
                 {props.usersPage.isFetched && <Preloader/>}
                 {props.usersPage.users.map(u => <UserItem key={u.id}
                                                           user={u}
-                                                          follow={props.follow}
-                                                          unfollow={props.unfollow}
-                                                          pendingFollow={props.pendingFollow}
-                                                          setPendingFollow={props.setPendingFollow}
+                                                          pendingFollow={props.usersPage.pendingFollow}
+                                                          onClickFollow={onClickFollow}
+                                                          onClickUnfollow={onClickUnfollow}
                 />)}
             </div>
             <div className={s.usersPagination2}>

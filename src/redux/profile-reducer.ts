@@ -1,3 +1,7 @@
+import {Dispatch} from "redux";
+import {API} from "../api/api";
+import {setAuthDataAC} from "./auth-reducer";
+
 export type profileInfoType = {
     avatar: string,
     profileBioText: string,
@@ -101,6 +105,33 @@ export const setUserProfile = (profile: profilePageDataType | null) => {
             profile
         }
     } as const
+}
+
+export const setUserProfileThunkCreator = (userId: string) => {
+
+    return (dispatch: Dispatch<ProfileReducerACType>) => {
+        if (!userId) {
+            userId = '20140'
+        }
+        API.getUserProfile(+userId).then(data => {
+            dispatch(setUserProfile(data))
+        }).catch(reason => {
+            console.log(reason)
+        })
+    }
+
+}
+
+export const addPostThunkCreator = (text: string) => {
+    return (dispatch: Dispatch<ProfileReducerACType>) => {
+        dispatch(addPost(text))
+    }
+}
+
+export const updPostTextThunkCreator = (text: string) => {
+    return (dispatch: Dispatch<ProfileReducerACType>) => {
+        dispatch(updPostText(text))
+    }
 }
 
 export default profileReducer;
