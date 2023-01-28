@@ -1,20 +1,37 @@
 import React, {RefObject} from "react";
 import s from "../Profile.module.css";
 import Post from "./Post/Post";
-import {postType} from "../../../redux/profile-reducer";
+import {postType, profilePageDataType} from "../../../redux/profile-reducer";
 
 type MyPostsPropsType = {
-    postsData: postType[],
+    avatar: string
+    posts: postType[],
+    profilePageData: profilePageDataType | null
     newPostText: string,
     addPost: (text: string) => void
     updPostText: (text: string) => void
 }
 
-const MyPosts: React.FC<MyPostsPropsType> = ({postsData,newPostText,addPost,updPostText}) => {
+const MyPosts: React.FC<MyPostsPropsType> = ({
+                                                 posts,
+                                                 profilePageData,
+                                                 newPostText,
+                                                 addPost, updPostText,
+                                                 avatar
+                                             }) => {
 
-    const myPostsElements = postsData.map( p => <Post id={p.id} userName={p.userName} message={p.message} likesCount={p.likesCount}/> )
+    let userName = posts[0].userName
+    let id = profilePageData?.userId ? profilePageData.userId.toString() : '20140'
 
-    const NewPostElement:RefObject<HTMLTextAreaElement> = React.createRef()
+    if (profilePageData) {
+        userName = profilePageData.fullName
+    }
+
+    const myPostsElements = posts.map((p, i) => <Post key={i}
+                                                      id={id} avatar={avatar} userName={userName} message={p.message}
+                                                      likesCount={p.likesCount}/>)
+
+    const NewPostElement: RefObject<HTMLTextAreaElement> = React.createRef()
     const addPostHandler = () => {
         let text = NewPostElement.current?.value
         text && addPost(text)

@@ -8,8 +8,9 @@ type UsersPropsType = {
     usersPage: userPageType
     follow: (userID: number) => void,
     unfollow: (userID: number) => void,
-    onClickSetPage: (currPage: number) => void
-
+    onClickSetPage: (currPage: number) => void,
+    pendingFollow: boolean,
+    setPendingFollow: (pendingFollow: boolean) => void,
 }
 
 const Users = (props: UsersPropsType) => {
@@ -24,23 +25,25 @@ const Users = (props: UsersPropsType) => {
     return (
         <div className={s.usersContent}>
             <div className={s.usersPagination}>
-                {pagination.map((p,i) => <span key={i}
-                                               className={p === props.usersPage.currPage ? "currPageSpan" : "pageSpan"}
-                                               onClick={(e) => props.onClickSetPage(p)}>{`⠀${p}⠀`}</span>
+                {pagination.map((p, i) => <span key={i}
+                                                className={p === props.usersPage.currPage ? "currPageSpan" : "pageSpan"}
+                                                onClick={(e) => props.onClickSetPage(p)}>{`⠀${p}⠀`}</span>
                 )}
             </div>
             <div className={s.usersList}>
                 {props.usersPage.isFetched && <Preloader/>}
                 {props.usersPage.users.map(u => <UserItem key={u.id}
-                                                               user={u}
-                                                               follow={props.follow}
-                                                               unfollow={props.unfollow}
+                                                          user={u}
+                                                          follow={props.follow}
+                                                          unfollow={props.unfollow}
+                                                          pendingFollow={props.pendingFollow}
+                                                          setPendingFollow={props.setPendingFollow}
                 />)}
             </div>
             <div className={s.usersPagination2}>
-                {pagination.map((p,i) => <span key={i}
-                                               className={p === props.usersPage.currPage ? "currPageSpan" : "pageSpan"}
-                                               onClick={(e) => props.onClickSetPage(p)}>{`⠀${p}⠀`}</span>
+                {pagination.map((p, i) => <span key={i}
+                                                className={p === props.usersPage.currPage ? "currPageSpan" : "pageSpan"}
+                                                onClick={(e) => props.onClickSetPage(p)}>{`⠀${p}⠀`}</span>
                 )}
             </div>
         </div>

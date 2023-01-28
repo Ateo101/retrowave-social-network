@@ -11,11 +11,22 @@ export type ProfilePropsType = {
 }
 
 const Profile = (props: ProfilePropsType) => {
+
+    let avatar = props.profilePage.profilePageData?.photos.small
+        ? props.profilePage.profilePageData.photos.small
+        : props.profilePage.profileInfo.avatar
+    let profileBioText = props.profilePage.profilePageData?.aboutMe
+        ? props.profilePage.profilePageData.aboutMe
+        : props.profilePage.profileInfo.profileBioText
+
     return (
         <div className={s.profile}>
-            <ProfileInfo avatar={props.profilePage.profileInfo.avatar}
-                         profileBioText={props.profilePage.profileInfo.profileBioText}/>
-            <MyPosts postsData={props.profilePage.posts}
+            <ProfileInfo avatar={avatar}
+                         profileBioText={profileBioText}
+            />
+            <MyPosts avatar={avatar}
+                     posts={props.profilePage.posts}
+                     profilePageData={props.profilePage.profilePageData}
                      newPostText={props.profilePage.newPostText}
                      addPost={props.addPost}
                      updPostText={props.updPostText}

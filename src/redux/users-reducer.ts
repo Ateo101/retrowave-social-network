@@ -25,7 +25,8 @@ export type userPageType = {
     pageSize: number,
     totalUsersCount: number,
     currPage: number,
-    isFetched: boolean
+    isFetched: boolean,
+    pendingFollow: boolean
 }
 
 const FOLLOW = "FOLLOW"
@@ -35,13 +36,15 @@ const SET_PAGE_SIZE = "SET-PAGE-SIZE"
 const SET_TOTAL_USERS = "SET-TOTAL-USERS"
 const SET_CURR_PAGE = "SET-CURR-PAGE"
 const SET_FETCHED = "SET-FETCHED"
+const SET_PENDING_FOLLOW = "SET-PENDING-FOLLOW"
 
 const initialState: userPageType = {
     users: [],
     pageSize: 25,
     totalUsersCount: 25,
     currPage: 1,
-    isFetched: false
+    isFetched: false,
+    pendingFollow: false,
 }
 
 const usersReducer = (state = initialState, action: ProfileReducerACType): userPageType => {
@@ -67,6 +70,8 @@ const usersReducer = (state = initialState, action: ProfileReducerACType): userP
             return {...state, currPage: action.payload.currPage}
         case SET_FETCHED:
             return {...state, isFetched: action.payload.fetched}
+        case SET_PENDING_FOLLOW:
+            return {...state, pendingFollow: action.payload.pendingFollow}
         default:
             return state
     }
@@ -81,9 +86,10 @@ type ProfileReducerACType =
     | setTotalUsersACType
     | setCurrPageACType
     | setFetchedACType
+    | setPendingFollowACType
 
-type followACType = ReturnType<typeof followAC>
-export const followAC = (userID: number) => {
+type followACType = ReturnType<typeof follow>
+export const follow = (userID: number) => {
     return {
         type: FOLLOW,
         payload: {
@@ -92,8 +98,8 @@ export const followAC = (userID: number) => {
     } as const
 }
 
-type unfollowACType = ReturnType<typeof unfollowAC>
-export const unfollowAC = (userID: number) => {
+type unfollowACType = ReturnType<typeof unfollow>
+export const unfollow = (userID: number) => {
     return {
         type: UNFOLLOW,
         payload: {
@@ -102,8 +108,8 @@ export const unfollowAC = (userID: number) => {
     } as const
 }
 
-type setUsersACType = ReturnType<typeof setUsersAC>
-export const setUsersAC = (users: userType[]) => {
+type setUsersACType = ReturnType<typeof setUsers>
+export const setUsers = (users: userType[]) => {
     return {
         type: SET_USERS,
         payload: {
@@ -112,8 +118,8 @@ export const setUsersAC = (users: userType[]) => {
     } as const
 }
 
-type setPageSizeACType = ReturnType<typeof setPageSizeAC>
-export const setPageSizeAC = (pageSize: number) => {
+type setPageSizeACType = ReturnType<typeof setPageSize>
+export const setPageSize = (pageSize: number) => {
     return {
         type: SET_PAGE_SIZE,
         payload: {
@@ -122,8 +128,8 @@ export const setPageSizeAC = (pageSize: number) => {
     } as const
 }
 
-type setTotalUsersACType = ReturnType<typeof setTotalUsersAC>
-export const setTotalUsersAC = (totalUsers: number) => {
+type setTotalUsersACType = ReturnType<typeof setTotalUsers>
+export const setTotalUsers = (totalUsers: number) => {
     return {
         type: SET_TOTAL_USERS,
         payload: {
@@ -132,8 +138,8 @@ export const setTotalUsersAC = (totalUsers: number) => {
     } as const
 }
 
-type setCurrPageACType = ReturnType<typeof setCurrPageAC>
-export const setCurrPageAC = (currPage: number) => {
+type setCurrPageACType = ReturnType<typeof setCurrPage>
+export const setCurrPage = (currPage: number) => {
     return {
         type: SET_CURR_PAGE,
         payload: {
@@ -142,12 +148,22 @@ export const setCurrPageAC = (currPage: number) => {
     } as const
 }
 
-type setFetchedACType = ReturnType<typeof setFetchedAC>
-export const setFetchedAC = (fetched: boolean) => {
+type setFetchedACType = ReturnType<typeof setFetched>
+export const setFetched = (fetched: boolean) => {
     return {
         type: SET_FETCHED,
         payload: {
             fetched
+        }
+    } as const
+}
+
+type setPendingFollowACType = ReturnType<typeof setPendingFollow>
+export const setPendingFollow = (pendingFollow: boolean) => {
+    return {
+        type: SET_PENDING_FOLLOW,
+        payload: {
+            pendingFollow
         }
     } as const
 }

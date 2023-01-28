@@ -2,21 +2,34 @@
     grid-area: h;
     height: auto;
 }
-.logo{
-    height: 100px;
-    vertical-align: sub;
-
+.headerContent{
+    display: grid;
+    grid-template-areas:
+    'lc ls login';
+    grid-template-columns: 0.1fr 0.2fr 0.8fr;
+    place-items: center;
 }
 .logoContainer{
-    display: inline-block;
     padding: 10px 0 0 10px;
+    grid-area: lc;
+}
+.logo{
+    height: 100px;
 }
 /*.logo{
     box-shadow: 15px 15px 40px 0 #10102a, -40px -40px 40px 0px #10102a, 45px -40px 40px 0 #10102a, -40px 25px 40px 0 #10102a;
     border-radius: 100%;
 }*/
-.logoSign{
-    height: 70px;
+.logoSignContainer{
+    grid-area: ls;
+    justify-self: start;
     /*padding: 10px 0 0 10px;
     vertical-align: super;*/
+}
+.logoSign{
+    height: 65px;
+}
+.loginBtn{
+    grid-area: login;
+    justify-self: end;
 }

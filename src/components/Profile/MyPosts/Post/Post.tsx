@@ -7,7 +7,7 @@ const Post = (props: postType) => {
     return (
         <div className={s.postItem}>
             <div>
-                <NavLink to='/profile'><img className={s.avatar} src={"https://i.ibb.co/Gc3qXtB/ava-synthwave.png"}/></NavLink>
+                <NavLink to={`/profile/${props.id}`}><img className={s.avatar} src={props.avatar}/></NavLink>
             </div>
             <div>
                 <b className={s.userName}>{props.userName}</b>

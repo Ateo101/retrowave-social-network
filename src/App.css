@@ -77,3 +77,21 @@ textarea::placeholder{
 span:hover {
   cursor: pointer;
 }
+
+button {
+  font-size: 1em;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #9831c6;
+  color: white;
+  border: none ;
+  font-family: Newtown, Verdana;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+button:hover{
+  cursor: pointer;
+  background-color: #421657;
+  font-weight: bold;
+}
