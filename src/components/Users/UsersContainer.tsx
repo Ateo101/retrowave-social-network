@@ -7,9 +7,11 @@ import {
 import Users from "./Users";
 import React from "react";
 import s from './users.module.css'
+import {Redirect} from "react-router-dom";
 
 type UsersPropsType = {
     usersPage: userPageType
+    isAuth: boolean
     getUsers: (currPage: number, pageSize: number) => void
     followUser: (id: number) => void
     unfollowUser: (id: number) => void
@@ -34,23 +36,27 @@ class UsersContainer extends React.Component<UsersPropsType> {
     }
 
     render() {
-        return <div className={s.users}>
-            {/*{this.props.usersPage.isFetched && <Preloader/>}*/}
-            <Users usersPage={this.props.usersPage}
-                   onClickSetPage={this.onClickSetPage}
-                   followUser={this.followUser}
-                   unfollowUser={this.unfollowUser}
-            />
-        </div>
+        return !this.props.isAuth
+            ? <Redirect to={'/login'}/>
+            : <div className={s.users}>
+                {/*{this.props.usersPage.isFetched && <Preloader/>}*/}
+                <Users usersPage={this.props.usersPage}
+                       onClickSetPage={this.onClickSetPage}
+                       followUser={this.followUser}
+                       unfollowUser={this.unfollowUser}
+                />
+            </div>
     }
 }
 
 type mapStateToPropsType = {
     usersPage: userPageType,
+    isAuth: boolean
 }
 const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
         usersPage: state.usersReducer,
+        isAuth: state.authReducer.isAuth
     }
 }
 
