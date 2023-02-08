@@ -8,6 +8,8 @@ import Users from "./Users";
 import React from "react";
 import s from './users.module.css'
 import {Redirect} from "react-router-dom";
+import {compose} from "redux";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 type UsersPropsType = {
     usersPage: userPageType
@@ -36,16 +38,14 @@ class UsersContainer extends React.Component<UsersPropsType> {
     }
 
     render() {
-        return !this.props.isAuth
-            ? <Redirect to={'/login'}/>
-            : <div className={s.users}>
-                {/*{this.props.usersPage.isFetched && <Preloader/>}*/}
-                <Users usersPage={this.props.usersPage}
-                       onClickSetPage={this.onClickSetPage}
-                       followUser={this.followUser}
-                       unfollowUser={this.unfollowUser}
-                />
-            </div>
+        return <div className={s.users}>
+            {/*{this.props.usersPage.isFetched && <Preloader/>}*/}
+            <Users usersPage={this.props.usersPage}
+                   onClickSetPage={this.onClickSetPage}
+                   followUser={this.followUser}
+                   unfollowUser={this.unfollowUser}
+            />
+        </div>
     }
 }
 
@@ -60,11 +60,13 @@ const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     }
 }
 
-export default connect(mapStateToProps, {
-    getUsers: getUsersThunkCreator,
-    followUser: followThunkCreator,
-    unfollowUser: unfollowThunkCreator,
-})(UsersContainer);
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {
+        getUsers: getUsersThunkCreator,
+        followUser: followThunkCreator,
+        unfollowUser: unfollowThunkCreator,
+    }), withAuthRedirect
+)(UsersContainer);
 
 /*type mapDispatchToPropsType = {
     follow: (userID: number) => void,
