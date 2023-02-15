@@ -1,41 +1,44 @@
 import React from "react";
 import Profile from "./Profile";
 import {
-    addPostThunkCreator, setUserProfileThunkCreator, updPostTextThunkCreator,
+    addPostThunkCreator, setUserProfileThunkCreator, setUserStatusThunkCreator, getUserStatusThunkCreator,
     profilePageType,
 } from "../../redux/profile-reducer";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 
 type ProfileContainerPropsType = {
     profilePage: profilePageType
-    isAuth: boolean
     addPost: (text: string) => void
-    updPostText: (text: string) => void
-    setUserProfile?: (userId: string) => void
+    setUserProfile: (userId: number) => void
+    setUserStatus: (status: string) => void
+    getUserStatus: (userId: number) => void
 }
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType & RouteComponentProps<{ userId: string }>> {
 
     componentDidMount() {
         let userId = this.props.match.params.userId
-        this.props.setUserProfile && this.props.setUserProfile(userId)
+        this.props.getUserStatus(Number(userId))
+        this.props.setUserProfile(Number(userId))
     }
 
     addPost = (text: string) => {
         this.props.addPost(text)
     }
-    updPostText = (text: string) => {
-        this.props.updPostText(text)
+
+    setStatus = (status: string) => {
+        this.props.setUserStatus(status)
     }
 
     render() {
         return <Profile profilePage={this.props.profilePage}
-                       addPost={this.addPost}
-                       updPostText={this.updPostText}/>
+                        addPost={this.addPost}
+                        setUserStatus={this.setStatus}
+        />
     }
 }
 
@@ -49,15 +52,16 @@ type mapStateToPropsType = {
 const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
         profilePage: state.profileReducer,
-        isAuth: state.authReducer.isAuth
+        isAuth: state.authReducer.isAuth,
     }
 }
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {
         addPost: addPostThunkCreator,
-        updPostText: updPostTextThunkCreator,
-        setUserProfile: setUserProfileThunkCreator
+        setUserProfile: setUserProfileThunkCreator,
+        setUserStatus: setUserStatusThunkCreator,
+        getUserStatus: getUserStatusThunkCreator
     }), withRouter, withAuthRedirect
 )(ProfileContainer)
 

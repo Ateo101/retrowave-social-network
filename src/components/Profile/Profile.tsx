@@ -7,29 +7,25 @@ import {profilePageType} from "../../redux/profile-reducer";
 export type ProfilePropsType = {
     profilePage: profilePageType
     addPost: (text: string) => void
-    updPostText: (text: string) => void
+    setUserStatus: (status: string) => void
 }
 
 const Profile = (props: ProfilePropsType) => {
 
-    let avatar = props.profilePage.profilePageData?.photos.small
-        ? props.profilePage.profilePageData.photos.small
-        : props.profilePage.profileInfo.avatar
-    let profileBioText = props.profilePage.profilePageData?.aboutMe
-        ? props.profilePage.profilePageData.aboutMe
-        : props.profilePage.profileInfo.profileBioText
+    let profileInfo = props.profilePage.profileInfo
 
     return (
         <div className={s.profile}>
-            <ProfileInfo avatar={avatar}
-                         profileBioText={profileBioText}
+            <ProfileInfo userId={profileInfo.userId}
+                         userName={profileInfo.userName}
+                         avatar={profileInfo.avatar}
+                         profileBioText={profileInfo.profileBioText}
+                         setUserStatus={props.setUserStatus}
             />
-            <MyPosts avatar={avatar}
+            <MyPosts avatar={profileInfo.avatar}
                      posts={props.profilePage.posts}
-                     profilePageData={props.profilePage.profilePageData}
-                     newPostText={props.profilePage.newPostText}
+                     profilePage={props.profilePage}
                      addPost={props.addPost}
-                     updPostText={props.updPostText}
             />
         </div>
     )
@@ -37,4 +33,9 @@ const Profile = (props: ProfilePropsType) => {
 
 export default Profile;
 
-
+/*    let avatar = props.profilePage.profilePageData?.photos.small
+        ? props.profilePage.profilePageData.photos.small
+        : props.profilePage.profileInfo.avatar
+    let profileBioText = props.profilePage.profilePageData?.aboutMe
+        ? props.profilePage.profilePageData.aboutMe
+        : props.profilePage.profileInfo.profileBioText*/

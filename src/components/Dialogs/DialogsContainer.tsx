@@ -2,7 +2,7 @@ import React from "react";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {compose, Dispatch} from "redux";
-import {dialogsPageType, sendMessageAC, updateMessageAC} from "../../redux/dialogs-reducer";
+import {dialogsPageType, sendMessageAC} from "../../redux/dialogs-reducer";
 import {AppStateType} from "../../redux/redux-store";
 import {Redirect, RouteComponentProps} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
@@ -20,15 +20,11 @@ const mapStateToProps = (state: AppStateType):mapStateToPropsType => {
 
 type mapDispatchToPropsType = {
     sendMessage: (text: string) => void,
-    updMessageText: (text: string) => void,
 }
 const mapDispatchToProps = (dispatch: Dispatch):mapDispatchToPropsType => {
     return {
         sendMessage: (text: string) => {
             dispatch(sendMessageAC(text))
-        },
-        updMessageText: (text: string) => {
-            dispatch(updateMessageAC(text))
         },
     }
 }

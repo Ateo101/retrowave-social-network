@@ -1,7 +1,8 @@
 import s from "../Dialogs.module.css";
-import React, {ChangeEvent, RefObject} from "react";
+import React from "react";
 import Message from "./Message";
 import {messageType} from "../../../redux/dialogs-reducer";
+import {Field, reduxForm, InjectedFormProps} from "redux-form";
 
 type MessagesWindowPropsType = {
     messagesData: messageType[]
@@ -10,19 +11,13 @@ type MessagesWindowPropsType = {
     dialogMessage: string
 }
 
-const MessagesWindow: React.FC<MessagesWindowPropsType> = ({messagesData,updMessageText,sendMessage,dialogMessage}) => {
+const MessagesWindow = (props: MessagesWindowPropsType) => {
 
-    const messagesElements = messagesData.map( m => <Message text={m.text}/> )
+    const messagesElements = props.messagesData.map(m => <Message text={m.text}/>)
 
-    const NewMessageTextarea:RefObject<HTMLTextAreaElement> = React.createRef()
-    const sendMessageHandler = () => {
-        let text = NewMessageTextarea.current?.value
-        text && sendMessage(text)
-        text && updMessageText('');
-    }
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        let text = e.currentTarget?.value
-        text && updMessageText(text);
+    const onSubmit = (formData: DialogueFormDataType) => {
+        console.log(formData)
+        formData.dialogueTextarea && props.sendMessage(formData.dialogueTextarea)
     }
 
     return (
@@ -30,19 +25,31 @@ const MessagesWindow: React.FC<MessagesWindowPropsType> = ({messagesData,updMess
             <div className={s.messagesWindow}>
                 <div className={s.h2Dialogs}>Messages</div>
                 {messagesElements}
-                <textarea placeholder={'Type your amazing message here...'}
-                          value={dialogMessage}
-                          onChange={onChangeHandler}
-                          ref={NewMessageTextarea}
-                />
-                <div>
-                    <button title={'Send message'} onClick={sendMessageHandler}>Send</button>
-                    <button title={'Clear text'} onClick={()=>updMessageText('')}>Clear</button>
-                </div>
+                <ReduxDialogForm onSubmit={onSubmit}/>
             </div>
-
         </>
     )
 }
+
+const DialogForm = (props: InjectedFormProps<DialogueFormDataType>) => {
+
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <Field component={'textarea'}
+                       placeholder={'Type your amazing message here...'}
+                       name={'dialogueTextarea'}
+                />
+            </div>
+            <button>Send</button>
+        </form>
+    )
+
+}
+
+type DialogueFormDataType = {
+    dialogueTextarea: string
+}
+const ReduxDialogForm = reduxForm<DialogueFormDataType>({form: 'dialogueForm'})(DialogForm)
 
 export default MessagesWindow;

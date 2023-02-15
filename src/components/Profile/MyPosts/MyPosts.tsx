@@ -1,60 +1,40 @@
-import React, {RefObject} from "react";
+import React from "react";
 import s from "../Profile.module.css";
 import Post from "./Post/Post";
-import {postType, profilePageDataType} from "../../../redux/profile-reducer";
+import {postType, profilePageType} from "../../../redux/profile-reducer";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 
 type MyPostsPropsType = {
     avatar: string
     posts: postType[],
-    profilePageData: profilePageDataType | null
-    newPostText: string,
+    profilePage: profilePageType
     addPost: (text: string) => void
-    updPostText: (text: string) => void
 }
 
 const MyPosts: React.FC<MyPostsPropsType> = ({
                                                  posts,
-                                                 profilePageData,
-                                                 newPostText,
-                                                 addPost, updPostText,
+                                                 profilePage,
+                                                 addPost,
                                                  avatar
                                              }) => {
 
-    let userName = posts[0].userName
-    let id = profilePageData?.userId ? profilePageData.userId.toString() : '20140'
-
-    if (profilePageData) {
-        userName = profilePageData.fullName
-    }
+    let userName = profilePage.profileInfo.userName
+    let id = profilePage.profileInfo.userId
 
     const myPostsElements = posts.map((p, i) => <Post key={i}
                                                       id={id} avatar={avatar} userName={userName} message={p.message}
                                                       likesCount={p.likesCount}/>)
 
-    const NewPostElement: RefObject<HTMLTextAreaElement> = React.createRef()
-    const addPostHandler = () => {
-        let text = NewPostElement.current?.value
-        text && addPost(text)
-        text && updPostText('')
-    }
-    const onChangeHandler = () => {
-        let text = NewPostElement.current?.value
-        text && updPostText(text)
+    const onSubmit = (formData: ProfileFormDataType) => {
+        console.log(formData)
+        formData.sendPostForm && addPost(formData.sendPostForm)
     }
 
     return (
         <div>
             <h2 className={s.h2Posts}>My profile</h2>
             <div className={s.newPostInputArea}>
-                <textarea ref={NewPostElement}
-                          placeholder={'Type your amazing message here...'}
-                          value={newPostText}
-                          onChange={onChangeHandler}
-                />
-                <div>
-                    <button title={'Send post'} onClick={addPostHandler}>Send</button>
-                    <button title={'Clear text'} onClick={()=>updPostText('')}>Clear</button>
-                </div>
+                <ReduxProfileForm onSubmit={onSubmit}/>
             </div>
             <div className={s.postsList}>
                 {myPostsElements}
@@ -62,5 +42,23 @@ const MyPosts: React.FC<MyPostsPropsType> = ({
         </div>
     )
 }
+
+type ProfileFormDataType = { sendPostForm: string }
+
+const ProfileForm = (props: InjectedFormProps<ProfileFormDataType>) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <Field component={'textarea'}
+                       placeholder={'Type your amazing message here...'}
+                       name={'sendPostForm'}
+                />
+            </div>
+            <button>Send</button>
+        </form>
+    )
+}
+
+const ReduxProfileForm = reduxForm<ProfileFormDataType>({form: 'profileForm'})(ProfileForm)
 
 export default MyPosts;

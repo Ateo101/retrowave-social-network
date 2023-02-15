@@ -28,11 +28,19 @@ export const getUserProfile = (userId: number) => {
         .then(response => response.data)
 }
 
+export const updStatus = (status: string) => {
+    return instance.put(`profile/status`,{status})
+}
+
+export const getStatus = (userId: number) => {
+    return instance.get(`profile/status/${userId}`)
+}
+
 export const getAuthData = () => {
     return instance.get(`auth/me`)
         .then(response => response.data)
 }
 
 export const API = {
-    getUsers, followUser, unfollowUser, getUserProfile, getAuthData
+    getUsers, followUser, unfollowUser, getUserProfile, getAuthData, updStatus, getStatus
 }

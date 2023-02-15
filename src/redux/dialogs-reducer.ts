@@ -14,7 +14,6 @@ export type dialogsPageType = {
 }
 
 const SEND_MESSAGE = "SEND-MESSAGE"
-const UPD_MESSAGE_TEXT = "UPD-MESSAGE-TEXT"
 
 const initialState: dialogsPageType = {
     dialogs: [
@@ -35,32 +34,19 @@ const dialogsReducer = (state=initialState, action: DialogsReducerACType):dialog
 
     switch (action.type) {
         case SEND_MESSAGE:
-            //state.messages.push({text: action.payload.text})
             return {...state, messages: [...state.messages,{text: action.payload.text}]}
-        case UPD_MESSAGE_TEXT:
-            //state.dialogMessage = action.payload.text
-            return {...state, dialogMessage: action.payload.text}
         default:
             return state
     }
 
 }
 
-export type DialogsReducerACType = sendMessageACType | updateMessageACType
+export type DialogsReducerACType = sendMessageACType
 type sendMessageACType = ReturnType<typeof sendMessageAC>
-type updateMessageACType = ReturnType<typeof updateMessageAC>
 
 export const sendMessageAC = (text: string) => {
     return {
         type: SEND_MESSAGE,
-        payload: {
-            text
-        }
-    } as const
-}
-export const updateMessageAC = (text: string) => {
-    return {
-        type: UPD_MESSAGE_TEXT,
         payload: {
             text
         }
