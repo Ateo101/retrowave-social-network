@@ -1,0 +1,18 @@
+.textareaComponent{
+
+}
+
+.textareaComponent span.error {
+    color: red;
+}
+
+.commonFormError {
+    color: red;
+}
+
+.loginPage {
+    grid-area: c;
+    background-color: rgba(0, 0, 0, 0.56);
+    padding: 10px;
+    border-radius: 10px;
+}

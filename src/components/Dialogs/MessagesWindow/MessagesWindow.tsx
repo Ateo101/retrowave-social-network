@@ -3,6 +3,9 @@ import React from "react";
 import Message from "./Message";
 import {messageType} from "../../../redux/dialogs-reducer";
 import {Field, reduxForm, InjectedFormProps} from "redux-form";
+import {FormAreas} from "../../common/FormAreas/FormAreas";
+import {required} from "../../../util/validators/validators";
+import {maxLength300} from "../../Profile/MyPosts/MyPosts";
 
 type MessagesWindowPropsType = {
     messagesData: messageType[]
@@ -36,10 +39,10 @@ const DialogForm = (props: InjectedFormProps<DialogueFormDataType>) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field component={'textarea'}
+                <Field component={FormAreas}
                        placeholder={'Type your amazing message here...'}
                        name={'dialogueTextarea'}
-                />
+                       validate={[required, maxLength300]}/>
             </div>
             <button>Send</button>
         </form>

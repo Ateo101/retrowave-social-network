@@ -2,7 +2,7 @@ import React from "react";
 import {userPageType} from "../../redux/users-reducer";
 import UserItem from "./UserItem/UserItem";
 import s from "./users.module.css";
-import Preloader from "../Preloader/Preloader";
+import Preloader from "../common/Preloader/Preloader";
 import {API} from "../../api/api";
 
 type UsersPropsType = {

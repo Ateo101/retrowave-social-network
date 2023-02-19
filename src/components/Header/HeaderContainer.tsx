@@ -1,4 +1,4 @@
-import {setAuthDataAC, setAuthDataThunkCreator} from "../../redux/auth-reducer";
+import {logoutTC, setAuthDataAC, setAuthDataThunkCreator} from "../../redux/auth-reducer";
 import Header from "./Header";
 import {connect} from "react-redux";
 import React from "react";
@@ -8,6 +8,7 @@ type HeaderContainerPropsType = {
     setAuthData: () => void
     isAuth: boolean,
     login: string | null
+    logout: () => void
 }
 
 class HeaderContainer extends React.Component<HeaderContainerPropsType> {
@@ -18,7 +19,7 @@ class HeaderContainer extends React.Component<HeaderContainerPropsType> {
 
     render() {
         return <>
-            <Header isAuth={this.props.isAuth} login={this.props.login}/>
+            <Header isAuth={this.props.isAuth} login={this.props.login} logout={this.props.logout}/>
         </>
     }
 }
@@ -34,4 +35,4 @@ const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     }
 }
 
-export default connect(mapStateToProps, {setAuthData: setAuthDataThunkCreator})(HeaderContainer)
+export default connect(mapStateToProps, {setAuthData: setAuthDataThunkCreator, logout: logoutTC})(HeaderContainer)

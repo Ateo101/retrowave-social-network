@@ -1,6 +1,7 @@
-import {Dispatch} from "redux";
+import {Action, AnyAction, Dispatch} from "redux";
 import {API} from "../api/api";
 import {follow, setPendingFollow} from "./users-reducer";
+import {stopSubmit} from "redux-form";
 
 export type authDataType = {
     data: {
@@ -16,8 +17,8 @@ export type authDataType = {
 
 const initialState:authDataType = {
     data: {
-        id: null,
-        login: null,
+        id: 20140,
+        login: 'ateo101',
         email: null,
     },
     isAuth: false
@@ -29,7 +30,8 @@ const authReducer = (state=initialState, action: authReducerActionsType):authDat
 
     switch (action.type) {
         case SET_AUTH_DATA:
-            return {...state, data: action.payload.data, isAuth: true}
+            debugger
+            return {...state, data: {...state.data}, isAuth: action.payload.data.isAuth}
         default:
             return state
     }
@@ -39,7 +41,7 @@ const authReducer = (state=initialState, action: authReducerActionsType):authDat
 type authReducerActionsType = setAuthDataACType
 
 type setAuthDataACType = ReturnType<typeof setAuthDataAC>
-export const setAuthDataAC = (data: { id: number, login: string, email: string }) => {
+export const setAuthDataAC = (data: { id: number | null, login: string | null, email: string | null, isAuth: boolean }) => {
     return {
         type: SET_AUTH_DATA,
         payload: {
@@ -53,10 +55,47 @@ export const setAuthDataThunkCreator = () => {
 
     return (dispatch: Dispatch<authReducerActionsType>) => {
         API.getAuthData().then(data => {
-            data.resultCode === 0 && dispatch(setAuthDataAC(data.data))
+            debugger
+            const {id, login, email} = data.data
+            data.resultCode === 0 && dispatch(setAuthDataAC({id, login, email, isAuth: true}))
+            //
         })
     }
 
+}
+
+/*type loginACType = ReturnType<typeof loginAC>
+export const loginAC = (data: { id: number, login: string, email: string }) => {
+    return {
+        type: SET_AUTH_DATA,
+        payload: {
+            data
+        }
+    } as const
+}*/
+
+export const loginTC = (email: string, password: string, rememberMe: boolean) => {
+    return (dispatch: Dispatch<any>) => {
+        API.login(email,password,rememberMe).then(res => {
+            debugger
+            if(res.data.resultCode === 0){
+                debugger
+                dispatch(setAuthDataThunkCreator())
+            }
+            else {
+                dispatch(stopSubmit('login',{_error: res.data.messages.length > 0 ? res.data.messages[0] : 'Some error'}))
+            }
+        })
+    }
+}
+export const logoutTC = () => {
+    return (dispatch: Dispatch<any>) => {
+        API.logout().then(res => {
+            if(res.data.resultCode === 0){
+                dispatch(setAuthDataAC({id: null, login: null, email: null, isAuth: false}))
+            }
+        })
+    }
 }
 
 export default authReducer;

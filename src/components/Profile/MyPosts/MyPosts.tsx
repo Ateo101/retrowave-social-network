@@ -3,6 +3,8 @@ import s from "../Profile.module.css";
 import Post from "./Post/Post";
 import {postType, profilePageType} from "../../../redux/profile-reducer";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {maxLengthCreator, required} from "../../../util/validators/validators";
+import {FormAreas} from "../../common/FormAreas/FormAreas";
 
 type MyPostsPropsType = {
     avatar: string
@@ -45,14 +47,16 @@ const MyPosts: React.FC<MyPostsPropsType> = ({
 
 type ProfileFormDataType = { sendPostForm: string }
 
+export const maxLength300 = maxLengthCreator(300)
+
 const ProfileForm = (props: InjectedFormProps<ProfileFormDataType>) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field component={'textarea'}
+                <Field component={FormAreas}
                        placeholder={'Type your amazing message here...'}
                        name={'sendPostForm'}
-                />
+                       validate={[required, maxLength300]}/>
             </div>
             <button>Send</button>
         </form>

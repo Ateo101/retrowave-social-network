@@ -83,7 +83,6 @@ const profileReducer = (state = initialState, action: ProfileReducerACType): pro
 
     switch (action.type) {
         case ADD_POST:
-            debugger
             //state.posts.push({ id: '0', userName: 'Ryan', message: action.text, likesCount: 0 })
             return {
                 ...state,
@@ -157,12 +156,11 @@ export const setUserStatus = (status: string) => {
 
 export const setUserProfileThunkCreator = (userId: number) => {
 
-    if(!userId) userId = 20140
+    //if(!userId) userId = 20140
 
     return (dispatch: Dispatch<ProfileReducerACType>) => {
         API.getUserProfile(userId).then(data => {
             dispatch(setUserProfile(data))
-            debugger
         }).catch(reason => {
             console.log(reason)
         })
@@ -179,7 +177,6 @@ export const addPostThunkCreator = (text: string) => {
 export const setUserStatusThunkCreator = (status: string) => {
     return (dispatch: Dispatch<ProfileReducerACType>) => {
         API.updStatus(status).then(() => {
-            debugger
             dispatch(setUserStatus(status))
         }).catch(reason => {
             console.log(reason)
@@ -189,11 +186,10 @@ export const setUserStatusThunkCreator = (status: string) => {
 
 export const getUserStatusThunkCreator = (userId: number) => {
 
-    if(!userId) userId = 20140
+    //if(!userId) userId = 20140
 
     return (dispatch: Dispatch<ProfileReducerACType>) => {
         API.getStatus(+userId).then((res) => {
-            debugger
             dispatch(setUserStatus(res.data))
         }).catch(reason => {
             console.log(reason)

@@ -1,19 +1,31 @@
 import {Field, reduxForm, InjectedFormProps} from "redux-form";
+import {Input} from "../common/FormAreas/FormAreas";
+import {connect, useDispatch} from "react-redux";
+import {loginTC, logoutTC} from "../../redux/auth-reducer";
+import s from '../common/FormAreas/FormAreasStyles.module.css'
+import {Redirect} from "react-router-dom";
+import {AppStateType} from "../../redux/redux-store";
 
 type FormDataType = {
-    login: string,
+    email: string,
     password: string,
     rememberMe: boolean
 }
 
-const Login = () => {
+const Login = (props: ReturnType<typeof mapStateToProps>) => {
+
+    const dispatch = useDispatch()
 
     const onSubmit = (formData: FormDataType) => {
-        console.log(formData)
+        dispatch(loginTC(formData.email, formData.password, formData.rememberMe))
+    }
+
+    if (props.isAuth) {
+        return <Redirect to={'/profile'}/>
     }
 
     return (
-        <div>
+        <div className={s.loginPage}>
             <h1>Login</h1>
             <ReduxLoginForm onSubmit={onSubmit}/>
         </div>
@@ -24,14 +36,14 @@ const LoginForm = (props: InjectedFormProps<FormDataType>) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field name={'login'}
+                <Field name={'email'}
                        placeholder={'Login'}
-                       component={'input'}/>
+                       component={Input}/>
             </div>
             <div>
                 <Field name={'password'}
                        placeholder={'Password'}
-                       component={'input'}/>
+                       component={Input}/>
             </div>
             <div>
                 <Field name={'rememberMe'}
@@ -39,8 +51,11 @@ const LoginForm = (props: InjectedFormProps<FormDataType>) => {
                        component={'input'}/>
                 Remember me
             </div>
+            {props.error && <div className={s.commonFormError}>
+                {props.error}
+            </div>}
             <div>
-                <button>Log in</button>
+                <button>Login</button>
             </div>
         </form>
     )
@@ -48,4 +63,8 @@ const LoginForm = (props: InjectedFormProps<FormDataType>) => {
 
 const ReduxLoginForm = reduxForm<FormDataType>({form: 'login'})(LoginForm)
 
-export default Login;
+const mapStateToProps = (state: AppStateType) => ({
+    isAuth: state.authReducer.isAuth
+})
+
+export default connect(mapStateToProps, {loginTC})(Login);

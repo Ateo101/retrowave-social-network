@@ -11,19 +11,22 @@ import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 
 type ProfileContainerPropsType = {
-    profilePage: profilePageType
     addPost: (text: string) => void
     setUserProfile: (userId: number) => void
     setUserStatus: (status: string) => void
     getUserStatus: (userId: number) => void
 }
 
-class ProfileContainer extends React.Component<ProfileContainerPropsType & RouteComponentProps<{ userId: string }>> {
+class ProfileContainer extends React.Component<ReturnType<typeof mapStateToProps> & ProfileContainerPropsType & RouteComponentProps<{ userId: string }>> {
 
     componentDidMount() {
+        // let userId = this.props.match.params.userId
         let userId = this.props.match.params.userId
-        this.props.getUserStatus(Number(userId))
+        if (!userId && this.props.authorizedUserId) {
+            userId = this.props.authorizedUserId.toString()
+        }
         this.props.setUserProfile(Number(userId))
+        this.props.getUserStatus(Number(userId))
     }
 
     addPost = (text: string) => {
@@ -44,15 +47,11 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType & Route
 
 /*const AuthRedirectComponent = withAuthRedirect(ProfileContainer)*/
 
-type mapStateToPropsType = {
-    profilePage: profilePageType,
-    isAuth: boolean
-}
-
-const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
+const mapStateToProps = (state: AppStateType) => {
     return {
         profilePage: state.profileReducer,
         isAuth: state.authReducer.isAuth,
+        authorizedUserId: state.authReducer.data.id
     }
 }
 

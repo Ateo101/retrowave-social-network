@@ -29,18 +29,27 @@ export const getUserProfile = (userId: number) => {
 }
 
 export const updStatus = (status: string) => {
-    return instance.put(`profile/status`,{status})
+    return instance.put(`profile/status`, {status})
 }
 
 export const getStatus = (userId: number) => {
     return instance.get(`profile/status/${userId}`)
 }
 
+/* --- Login / Logout --- */
 export const getAuthData = () => {
     return instance.get(`auth/me`)
         .then(response => response.data)
 }
 
+export const login = (email: string, password: string, rememberMe = false) => {
+    return instance.post(`auth/login`, {email, password, rememberMe, captcha: false})
+}
+export const logout = () => {
+    return instance.delete(`auth/login`)
+}
+
+/* --- Combine to object --- */
 export const API = {
-    getUsers, followUser, unfollowUser, getUserProfile, getAuthData, updStatus, getStatus
+    getUsers, followUser, unfollowUser, getUserProfile, getAuthData, updStatus, getStatus, login, logout
 }

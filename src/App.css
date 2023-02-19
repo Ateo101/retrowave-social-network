@@ -29,6 +29,19 @@ p{
 
 @font-face {font-family: "Newtown"; unicode-range: U+00-FF, U+980-9FF; src: url("//db.onlinewebfonts.com/t/c53e60509e5f6c6b82e6b3ca34c3aff1.eot"); src: url("//db.onlinewebfonts.com/t/c53e60509e5f6c6b82e6b3ca34c3aff1.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/c53e60509e5f6c6b82e6b3ca34c3aff1.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/c53e60509e5f6c6b82e6b3ca34c3aff1.woff") format("woff"), url("//db.onlinewebfonts.com/t/c53e60509e5f6c6b82e6b3ca34c3aff1.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/c53e60509e5f6c6b82e6b3ca34c3aff1.svg#Newtown") format("svg") ;}
 
+input {
+  padding-left: 10px;
+  font-size: 1.2em;
+  border-radius: 20px;
+  resize: none;
+  background-color: rgba(0, 0, 0, 0.56);
+  color: white;
+  border: solid white 3px;
+  height: 35px;
+  font-family: Newtown, Verdana;
+  font-style: italic;
+}
+
 textarea {
   position: relative;
   font-size: 1.2em;
